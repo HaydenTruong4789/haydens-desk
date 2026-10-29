@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hayden's Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Fredoka:wght@500;600;700&family=Caveat:wght@600;700&family=Nunito:wght@500;700&display=swap">
+<link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+<nav class="site-nav" id="dc-site-nav" aria-label="Site">
+  <a class="wordmark" href="#top">Hayden's Desk</a>
+  <div class="links">
+    <a href="#projects-section">Projects</a>
+    <a class="pill" href="#contact-section">Contact</a>
+  </div>
+</nav>
+
+<div class="scene-root" id="top">
+  <div class="loading" id="dc-loading">Loading the desk…</div>
+  <div class="canvas-host" id="dc-canvas-host"></div>
+  <canvas class="pixel-overlay" id="dc-pixel-overlay"></canvas>
+
+  <div class="title-wrap" id="dc-title-wrap">
+    <p class="eyebrow">Welcome to</p>
+  </div>
+
+</div>
+
+<section class="section projects-section" id="projects-section">
+  <div class="section-inner">
+    <h2 class="section-title">Projects</h2>
+    <div class="grid" id="projects-grid"></div>
+  </div>
+</section>
+
+<section class="section contact-section" id="contact-section">
+  <div class="section-inner">
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-note">
+      <p class="contact-lead">Want to build something together, talk about an internship, or just say hi? My inbox is open.</p>
+      <a class="contact-email" href="mailto:your@email.com">your@email.com</a>
+      <div class="contact-links">
+        <a class="contact-pill" href="#">GitHub</a>
+        <a class="contact-pill" href="#">LinkedIn</a>
+        <a class="contact-pill" href="#">Resume</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">© Hayden · built at a desk</footer>
+<div class="note-detail" id="note-detail" role="dialog" aria-modal="true" aria-labelledby="note-detail-title" hidden></div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
