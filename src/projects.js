@@ -3,51 +3,42 @@
 
 export const PROJECTS = [
   {
-    slug: 'project-one',
-    name: 'Project One',
-    summary: 'One or two sentences describing what this project does and what you built.',
-    overview: 'A short overview of the project: the problem, what you made, and how it turned out.',
-    tech: ['Tech one', 'Tech two', 'Tech three'],
-    role: 'Your role on the project',
-    live: '#',
-    github: '#',
-    image: null,
+    slug: 'strikeout-sim',
+    name: 'Strikeout Sim',
+    summary: 'Pick a 2026 starter and the team he faces: a model predicts his strikeouts, then a 3D sim plays the start pitch by pitch.',
+    overview: "An end-to-end pipeline that predicts a starting pitcher's strikeouts in a single game using only information available before first pitch. It pulls MLB Stats API game logs and pitch-level Statcast data via pybaseball, stores it as Parquet, and builds strictly pre-game features (rolling velocity and whiff rate, rest days, home/away) with an audit to rule out leakage from post-game stats. The live model averages a linear regression and a gradient-boosting model 50/50, a blend that beat an earlier random forest and a naive baseline on a time-based split; testing also measures how much game-to-game strikeout variance is just noise. On top of the model sits Strikeout Sim: pick one of 243 starters and any of 30 teams to get a projection with odds for each line (5+, 6+, 7+), then watch the start play out pitch by pitch in a 3D Three.js view, replay seeded runs, or simulate many games for a histogram and over/under lines.",
+    tech: ['Python', 'pandas', 'scikit-learn', 'pybaseball', 'Streamlit', 'Parquet', 'MLB Stats API', 'Statcast', 'Three.js'],
+    role: 'Personal project (2026 to present): data pipeline, model, simulation and interface',
+    live: null,
+    github: 'https://github.com/HaydenTruong4789/strikeout-model',
+    image: 'projects/strikeout-sim/matchup.webp',
+    gallery: ['projects/strikeout-sim/simulation.webp', 'projects/strikeout-sim/menu.webp'],
     video: null,
   },
   {
-    slug: 'project-two',
-    name: 'Project Two',
-    summary: 'One or two sentences describing what this project does and what you built.',
-    overview: 'A short overview of the project: the problem, what you made, and how it turned out.',
-    tech: ['Tech one', 'Tech two'],
-    role: 'Your role on the project',
-    live: '#',
-    github: '#',
+    slug: 'house-party',
+    name: 'House Party',
+    summary: 'An account-free shared jukebox: join with a 6-character room code and vote on what plays next. Built at BeaverHacks 2026.',
+    overview: 'Guests join a room by code, search YouTube from inside the app, and vote songs up a live queue that stays in sync for everyone through Firebase Realtime Database. Playback is embedded, with a synchronized play-on-all-devices mode. Hosts get permissions over guests, with presence tracking, inactivity timeouts and kicking, and the queue advances automatically in a way that avoids race conditions between clients. Deployed to Vercel.',
+    tech: ['React', 'Firebase', 'YouTube Data API', 'Tailwind CSS', 'Vercel'],
+    role: 'Hackathon teammate, BeaverHacks 2026',
+    live: null,
+    github: 'https://github.com/Angadslr/Chud-BeavHacks-26',
     image: null,
+    youtube: '1s1K5nHrAiw',
     video: null,
   },
   {
-    slug: 'project-three',
-    name: 'Project Three',
-    summary: 'One or two sentences describing what this project does and what you built.',
-    overview: 'A short overview of the project: the problem, what you made, and how it turned out.',
-    tech: ['Tech one', 'Tech two', 'Tech three', 'Tech four'],
-    role: 'Your role on the project',
-    live: '#',
-    github: '#',
+    slug: 'life-guard',
+    name: 'Life Guard',
+    summary: 'An AI lifeguard assistant that spots signs of drowning from video, running entirely in the browser. Built at QuackHacks 2026.',
+    overview: "A drowning-detection pipeline built on MediaPipe pose estimation that runs fully client-side (WASM/GPU) at about 30 FPS, tracking 33 body landmarks per swimmer so no video ever leaves the device. A risk-scoring engine combines torso angle, arm position, submersion (inferred from landmark visibility) and motion stasis, with heuristics tuned to ignore normal swimming. A multi-person tracker keeps each swimmer's identity across frames and only alerts after 4+ seconds of sustained risk. Deployed on DigitalOcean and tested against real drowning-incident footage.",
+    tech: ['React', 'TypeScript', 'MediaPipe', 'Vite', 'DigitalOcean'],
+    role: 'Hackathon teammate, QuackHacks 2026',
+    live: null,
+    github: 'https://github.com/Angadslr/quackhacks',
     image: null,
-    video: null,
-  },
-  {
-    slug: 'project-four',
-    name: 'Project Four',
-    summary: 'One or two sentences describing what this project does and what you built.',
-    overview: 'A short overview of the project: the problem, what you made, and how it turned out.',
-    tech: ['Tech one', 'Tech two', 'Tech three'],
-    role: 'Your role on the project',
-    live: '#',
-    github: '#',
-    image: null,
+    youtube: '5n9IRrJZ0Ug',
     video: null,
   },
 ];
@@ -77,9 +68,19 @@ function media(p, cls) {
     const v = el('video');
     Object.assign(v, { src: p.video, autoplay: true, muted: true, loop: true, playsInline: true });
     box.append(v);
+  } else if (p.youtube && cls === 'detail-media') {
+    const f = el('iframe');
+    Object.assign(f, { src: `https://www.youtube-nocookie.com/embed/${p.youtube}`, title: `${p.name} demo video`, allowFullscreen: true });
+    f.allow = 'encrypted-media; picture-in-picture; fullscreen';
+    box.append(f);
+  } else if (p.youtube) {
+    const img = el('img');
+    img.src = `https://i.ytimg.com/vi/${p.youtube}/hqdefault.jpg`;
+    img.alt = '';
+    box.append(img);
   } else if (p.image) {
     const img = el('img');
-    img.src = p.image;
+    img.src = BASE + p.image;
     img.alt = '';
     box.append(img);
   } else {
@@ -104,6 +105,16 @@ function renderCard(p) {
 function renderDetail(p) {
   const inner = el('div', 'detail-content');
   inner.append(media(p, 'detail-media'));
+  if (p.gallery?.length) {
+    const gallery = el('div', 'detail-gallery');
+    p.gallery.forEach((src) => {
+      const img = el('img');
+      img.src = BASE + src;
+      img.alt = '';
+      gallery.append(img);
+    });
+    inner.append(gallery);
+  }
   const title = el('h2', 'detail-title', p.name);
   title.id = 'note-detail-title';
   inner.append(title, el('p', 'detail-overview', p.overview));

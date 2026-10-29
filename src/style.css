@@ -380,3 +380,7 @@
     .site-nav .links a.pill { padding: 0 14px; min-height: 36px; }
     .hud-btn { font-size: 14px; padding: 8px 12px; }
   }
+
+.detail-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 12px; }
+.detail-gallery img { width: 100%; border-radius: 8px; display: block; }
+.detail-media iframe { width: 100%; height: 100%; border: 0; display: block; }
